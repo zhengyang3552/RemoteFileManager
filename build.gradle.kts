@@ -1,4 +1,4 @@
-# Top-level build file for Remote FileManager
+// Top-level build file for Remote FileManager
 buildscript {
     repositories {
         google()
