@@ -1,4 +1,4 @@
-// Top-level build file for Remote FileManager
+# Top-level build file for Remote FileManager
 buildscript {
     repositories {
         google()
@@ -6,7 +6,7 @@ buildscript {
     }
     dependencies {
         classpath("com.android.tools.build:gradle:8.2.0")
-        classpath("org.jetbrains.kotlin:kotlin-gradle-plugin:1.9.23")
+        classpath("org.jetbrains.kotlin:kotlin-gradle-plugin:1.8.22")
     }
 }
 
