@@ -48,7 +48,7 @@
                 android:id="@+id/btn_parent"
                 android:layout_width="48dp"
                 android:layout_height="match_parent"
-                android:src="@android:drawable/ic_menu_upload"
+                android:src="@drawable/ic_menu_upload"
                 android:contentDescription="上级目录"
                 android:background="?attr/selectableItemBackgroundBorderless" />
 

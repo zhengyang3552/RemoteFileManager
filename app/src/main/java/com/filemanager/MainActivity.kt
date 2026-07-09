@@ -7,20 +7,30 @@ import android.content.pm.PackageManager
 import android.net.Uri
 import android.os.Bundle
 import android.os.Environment
+import android.text.SpannedString
+import android.view.Gravity
+import android.view.LayoutInflater
+import android.view.MenuItem
+import android.view.MotionEvent
+import android.view.View
+import android.view.ViewGroup
 import android.widget.*
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.widget.Toolbar
 import androidx.core.content.ContextCompat
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.recyclerview.widget.DividerItemDecoration
+import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.filemanager.manager.*
+import com.filemanager.manager.ConnectionManager
 import com.filemanager.model.*
 import com.google.android.material.navigation.NavigationView
 import java.io.File
+import java.io.InputStream
 
 class MainActivity : AppCompatActivity() {
 
@@ -28,14 +38,14 @@ class MainActivity : AppCompatActivity() {
     private lateinit var toggle: ActionBarDrawerToggle
     private lateinit var navView: NavigationView
     private lateinit var recyclerFiles: RecyclerView
-    private lateinit var toolbar: android.widget.Toolbar
-    private lateinit var etPath: android.widget.EditText
+    private lateinit var toolbar: Toolbar
+    private lateinit var etPath: EditText
     private lateinit var tvStatus: TextView
     
     private lateinit var fileAdapter: FileAdapter
     private lateinit var connectionAdapter: ConnectionAdapter
     
-    private var connectionManager = ConnectionManager()
+    private val connectionManager = ConnectionManager()
     private var selectedConnection: RemoteConnection? = null
     private var localDownloadDir: String = Environment.getExternalStorageDirectory().absolutePath + "/RemoteFiles"
 
@@ -59,9 +69,9 @@ class MainActivity : AppCompatActivity() {
         etPath = findViewById(R.id.et_path)
         tvStatus = findViewById(R.id.tv_status)
 
-        findViewById<ImageButton>(R.id.btn_home).setOnClickListener { navigateToPath("/") }
-        findViewById<ImageButton>(R.id.btn_parent).setOnClickListener { navigateParent() }
-        findViewById<ImageButton>(R.id.btn_go).setOnClickListener { navigateToPath(etPath.text.toString()) }
+        findViewById<ImageButton>(R.id.btn_home)?.setOnClickListener { navigateToPath("/") }
+        findViewById<ImageButton>(R.id.btn_parent)?.setOnClickListener { navigateParent() }
+        findViewById<ImageButton>(R.id.btn_go)?.setOnClickListener { navigateToPath(etPath.text.toString()) }
     }
 
     private fun setupToolbar() {
@@ -95,19 +105,28 @@ class MainActivity : AppCompatActivity() {
             DividerItemDecoration(this, DividerItemDecoration.VERTICAL)
         )
         
-        // 设置长按菜单
-        recyclerFiles.setOnItemLongClickListener { _, _, position, _ ->
-            if (position > 0) { // 跳过".."项
-                showFileContextMenu(position - 1)
-                true
-            } else {
-                false
+        // 设置长按菜单 - use ItemTouchHelper for swipe and long press
+        recyclerFiles.addOnItemTouchListener(
+            object : RecyclerView.SimpleOnItemTouchListener() {
+                override fun onInterceptTouchEvent(rv: RecyclerView, e: MotionEvent): Boolean {
+                    val view = rv.findChildViewUnder(e.x, e.y)
+                    if (e.action == MotionEvent.ACTION_DOWN && view != null) {
+                        // Long press
+                        rv.postDelayed({
+                            val position = rv.getChildAdapterPosition(view)
+                            if (position > 0) {
+                                showFileContextMenu(position - 1)
+                            }
+                        }, 500)
+                    }
+                    return false
+                }
             }
-        }
+        )
     }
 
     private fun setupConnectionList() {
-        // 初始化连接列表（这里简化处理，实际应该在侧边栏中显示）
+        // 初始化连接列表
         val connections = connectionManager.getConnections()
         if (connections.isNotEmpty()) {
             selectedConnection = connections[0]
@@ -173,14 +192,14 @@ class MainActivity : AppCompatActivity() {
 
     private fun showNewConnectionDialog() {
         val dialogView = layoutInflater.inflate(R.layout.dialog_new_connection, null)
-        val etName = dialogView.findViewById<android.widget.EditText>(R.id.et_name)
-        val etHost = dialogView.findViewById<android.widget.EditText>(R.id.et_host)
-        val etPort = dialogView.findViewById<android.widget.EditText>(R.id.et_port)
-        val etUsername = dialogView.findViewById<android.widget.EditText>(R.id.et_username)
-        val etPassword = dialogView.findViewById<android.widget.EditText>(R.id.et_password)
-        val etPath = dialogView.findViewById<android.widget.EditText>(R.id.et_path)
-        val cbSsl = dialogView.findViewById<android.widget.CheckBox>(R.id.cb_ssl)
-        val spinner = dialogView.findViewById<android.widget.Spinner>(R.id.spinner_protocol)
+        val etName = dialogView.findViewById<EditText>(R.id.et_name)
+        val etHost = dialogView.findViewById<EditText>(R.id.et_host)
+        val etPort = dialogView.findViewById<EditText>(R.id.et_port)
+        val etUsername = dialogView.findViewById<EditText>(R.id.et_username)
+        val etPassword = dialogView.findViewById<EditText>(R.id.et_password)
+        val etPath = dialogView.findViewById<EditText>(R.id.et_path)
+        val cbSsl = dialogView.findViewById<CheckBox>(R.id.cb_ssl)
+        val spinner = dialogView.findViewById<Spinner>(R.id.spinner_protocol)
 
         // 设置协议列表
         val protocols = arrayOf("FTP", "FTPS", "SFTP", "SMB", "WebDAV")
@@ -259,11 +278,11 @@ class MainActivity : AppCompatActivity() {
             val files = connectionManager.listFiles(selectedConnection!!, path)
             
             fileAdapter.submitList(files)
-            etPath.text = android.text.TextUtils.SimpleStringSplitter('/').split(path)
+            etPath.text = SpannedString(path)
             
             if (path != "/") {
                 val newList = mutableListOf<FileInfo>()
-                newList.add(FileInfo("..", true, 0, null, null, null))
+                newList.add(FileInfo("..", true, 0, "", null, null))
                 newList.addAll(files)
                 fileAdapter.submitList(newList)
             }
@@ -313,7 +332,7 @@ class MainActivity : AppCompatActivity() {
                     val success = connectionManager.downloadFile(
                         selectedConnection!!,
                         "${etPath.text.toString()}/${file.name}",
-                        contentResolver.openInputStream(it).toString()
+                        outputStream
                     )
                     if (success) {
                         Toast.makeText(this, "下载成功", Toast.LENGTH_SHORT).show()
@@ -408,7 +427,7 @@ class MainActivity : AppCompatActivity() {
             .setTitle("重命名")
             .setView(R.layout.dialog_new_connection)
             .setPositiveButton("保存") { dialog, _ ->
-                val editText = (dialog as AlertDialog).findViewById<android.widget.EditText>(R.id.et_name)
+                val editText = (dialog as AlertDialog).findViewById<EditText>(R.id.et_name)
                 val newName = editText?.text?.toString() ?: return@setPositiveButton
                 val currentPath = selectedConnection?.let { connectionManager.getCurrentDirectory(it) } ?: "/"
                 val oldPath = if (currentPath == "/") "/${file.name}" else "$currentPath/${file.name}"
@@ -441,7 +460,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun showMoveDialog(file: FileInfo) {
-        showRenameDialog(file) // 简化处理，实际应该输入目标路径
+        showRenameDialog(file)
     }
 
     private fun showAboutDialog() {
@@ -457,7 +476,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     override fun onSupportNavigateUp(): Boolean {
-        drawerLayout.openDrawer(android.widget.Gravity.START)
+        drawerLayout.openDrawer(Gravity.START)
         return true
     }
 }
@@ -467,7 +486,7 @@ class FileAdapter(
     private val onItemClick: (FileInfo) -> Unit
 ) : RecyclerView.Adapter<FileAdapter.FileViewHolder>() {
 
-    private var items: MutableList<FileInfo> = mutableListOf()
+    var items: MutableList<FileInfo> = mutableListOf()
 
     fun submitList(list: List<FileInfo>) {
         items.clear()
@@ -477,8 +496,8 @@ class FileAdapter(
 
     fun getItem(position: Int): FileInfo? = items.getOrNull(position)
 
-    override fun onCreateViewHolder(parent: android.view.ViewGroup, viewType: Int): FileViewHolder {
-        val view = android.view.LayoutInflater.from(parent.context)
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): FileViewHolder {
+        val view = LayoutInflater.from(parent.context)
             .inflate(R.layout.item_file, parent, false)
         return FileViewHolder(view)
     }
@@ -487,7 +506,7 @@ class FileAdapter(
         val file = items[position]
         holder.bind(file)
         holder.itemView.setOnClickListener {
-            if (position > 0) { // 跳过".."项
+            if (position > 0) {
                 onItemClick(file)
             }
         }
@@ -495,14 +514,14 @@ class FileAdapter(
 
     override fun getItemCount(): Int = items.size
 
-    inner class FileViewHolder(itemView: android.view.View) : RecyclerView.ViewHolder(itemView) {
+    inner class FileViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         private val tvName: TextView = itemView.findViewById(R.id.tv_name)
         private val tvInfo: TextView = itemView.findViewById(R.id.tv_info)
         private val ivIcon: ImageView = itemView.findViewById(R.id.iv_icon)
 
         fun bind(file: FileInfo) {
             tvName.text = file.name
-            tvInfo.text = "${file.formattedSize} | ${file.lastModified?.toString() ?: "-"}"
+            tvInfo.text = "${file.formattedSize} | ${file.lastModified ?: "-"}"
             ivIcon.setImageResource(if (file.isDirectory) R.drawable.ic_folder else R.drawable.ic_file)
         }
     }
@@ -521,8 +540,8 @@ class ConnectionAdapter(
         notifyDataSetChanged()
     }
 
-    override fun onCreateViewHolder(parent: android.view.ViewGroup, viewType: Int): ConnectionViewHolder {
-        val view = android.view.LayoutInflater.from(parent.context)
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ConnectionViewHolder {
+        val view = LayoutInflater.from(parent.context)
             .inflate(R.layout.item_connection, parent, false)
         return ConnectionViewHolder(view)
     }
@@ -537,7 +556,7 @@ class ConnectionAdapter(
 
     override fun getItemCount(): Int = items.size
 
-    inner class ConnectionViewHolder(itemView: android.view.View) : RecyclerView.ViewHolder(itemView) {
+    inner class ConnectionViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         private val tvName: TextView = itemView.findViewById(R.id.tv_name)
         private val tvDetail: TextView = itemView.findViewById(R.id.tv_detail)
         private val ivStatus: ImageView = itemView.findViewById(R.id.iv_status)
@@ -549,8 +568,8 @@ class ConnectionAdapter(
                 when (connection.connectionState) {
                     ConnectionState.CONNECTED -> android.R.drawable.ic_menu_compass
                     ConnectionState.CONNECTING -> android.R.drawable.ic_menu_rotate
-                    ConnectionState.ERROR -> android.R.drawable.ic_menu_report_image
-                    else -> android.R.drawable.ic_menu_map_mode
+                    ConnectionState.ERROR -> R.drawable.ic_menu_report_image
+                    else -> R.drawable.ic_menu_map_mode
                 }
             )
         }
