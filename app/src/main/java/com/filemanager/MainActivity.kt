@@ -278,7 +278,7 @@ class MainActivity : AppCompatActivity() {
             val files = connectionManager.listFiles(selectedConnection!!, path)
             
             fileAdapter.submitList(files)
-            etPath.text = SpannedString(path)
+            etPath.setText(path)
             
             if (path != "/") {
                 val newList = mutableListOf<FileInfo>()
@@ -355,7 +355,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     private var filePickerLauncher = registerForActivityResult(
-        ActivityResultContracts.GetContent()
+        ActivityResultContracts.StartActivityForResult()
     ) { uri ->
         uri?.let {
             contentResolver.openInputStream(it)?.use { inputStream ->

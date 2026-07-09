@@ -4,6 +4,7 @@ import com.filemanager.model.ConnectionState
 import com.filemanager.model.FileInfo
 import com.filemanager.model.RemoteConnection
 import java.io.InputStream
+import java.io.OutputStream
 
 class ConnectionManager {
 
