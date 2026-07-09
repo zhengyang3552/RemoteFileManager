@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <group android:checkableBehavior="single">
+        <item
+            android:id="@+id/nav_add_connection"
+            android:icon="@android:drawable/ic_menu_add"
+            android:title="添加连接" />
+        <item
+            android:id="@+id/nav_refresh"
+            android:icon="@android:drawable/ic_menu_rotate"
+            android:title="刷新列表" />
+    </group>
+    <item android:title="传输">
+        <menu>
+            <item
+                android:id="@+id/nav_download"
+                android:icon="@android:drawable/ic_menu_download"
+                android:title="下载文件" />
+            <item
+                android:id="@+id/nav_upload"
+                android:icon="@android:drawable/ic_menu_upload"
+                android:title="上传文件" />
+        </menu>
+    </item>
+    <item android:title="关于">
+        <menu>
+            <item
+                android:id="@+id/nav_about"
+                android:icon="@android:drawable/ic_menu_info_details"
+                android:title="关于" />
+        </menu>
+    </item>
+</menu>
