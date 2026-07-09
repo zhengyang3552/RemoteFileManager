@@ -356,10 +356,11 @@ class MainActivity : AppCompatActivity() {
 
     private var filePickerLauncher = registerForActivityResult(
         ActivityResultContracts.StartActivityForResult()
-    ) { uri ->
-        uri?.let {
-            contentResolver.openInputStream(it)?.use { inputStream ->
-                val fileName = it.lastPathSegment ?: "uploaded_file"
+    ) { result ->
+        val uri = result.data?.data
+        uri?.let { pickedUri ->
+            contentResolver.openInputStream(pickedUri)?.use { inputStream ->
+                val fileName = pickedUri.lastPathSegment ?: "uploaded_file"
                 val currentPath = selectedConnection?.let { conn -> connectionManager.getCurrentDirectory(conn) } ?: "/"
                 val remotePath = if (currentPath == "/") "/$fileName" else "$currentPath/$fileName"
                 
