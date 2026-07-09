@@ -58,7 +58,7 @@ dependencies {
     implementation("com.hierynomus:sshj:0.36.0")
 
     // SMB
-    implementation("org.codelibs.jcifs:jcifs-ng:2.1.11")
+    implementation("eu.agno3.jcifs:jcifs-ng:2.1.10")
 
     // Testing
     testImplementation("junit:junit:4.13.2")
