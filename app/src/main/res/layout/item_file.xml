@@ -11,7 +11,7 @@
         android:id="@+id/iv_icon"
         android:layout_width="40dp"
         android:layout_height="40dp"
-        android:src="@android:drawable/ic_menu_directory"
+        android:src="@drawable/ic_folder"
         android:contentDescription="文件图标" />
 
     <LinearLayout
