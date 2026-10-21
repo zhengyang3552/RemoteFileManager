@@ -17,6 +17,21 @@ android {
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
 
+    // 固定发布签名：从 CI 注入的环境变量读取（KEYSTORE_PATH / KEYSTORE_PASSWORD /
+    // KEY_ALIAS / KEY_PASSWORD，来源为仓库 Actions Secrets 中的固定 keystore）。
+    // 本地未设置 KEYSTORE_PATH 时不启用签名配置，debug/unsigned 构建不受影响。
+    signingConfigs {
+        create("release") {
+            val ksPath = System.getenv("KEYSTORE_PATH")
+            if (ksPath != null) {
+                storeFile = file(ksPath)
+                storePassword = System.getenv("KEYSTORE_PASSWORD") ?: ""
+                keyAlias = System.getenv("KEY_ALIAS") ?: ""
+                keyPassword = System.getenv("KEY_PASSWORD") ?: ""
+            }
+        }
+    }
+
     buildTypes {
         release {
             isMinifyEnabled = true
@@ -24,6 +39,11 @@ android {
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"
             )
+            // 仅在提供签名文件时启用固定签名，保证所有版本的签名证书一致，
+            // 用户可以稳定地覆盖安装与升级（配置方法见 docs/SIGNING.md）。
+            if (System.getenv("KEYSTORE_PATH") != null) {
+                signingConfig = signingConfigs.getByName("release")
+            }
         }
         debug {
             isMinifyEnabled = false
