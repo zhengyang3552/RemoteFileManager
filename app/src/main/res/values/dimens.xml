@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+    间距 / 尺寸 / 圆角设计令牌
+    ============================================================
+    命名约定：
+      space_*  —— 4dp 基准网格（M3 建议使用 4dp 网格）
+      radius_* —— M3 形状刻度 none/extraSmall/small/medium/large/extraLarge
+      size_*   —— 组件固定尺寸
+    所有布局只允许使用这里的令牌，禁止出现散落的魔法数字。
+-->
+<resources>
+
+    <!-- ===== 间距 Spacing (4dp grid) ===== -->
+    <dimen name="space_1">2dp</dimen>
+    <dimen name="space_2">4dp</dimen>
+    <dimen name="space_3">8dp</dimen>
+    <dimen name="space_4">12dp</dimen>
+    <dimen name="space_5">16dp</dimen>
+    <dimen name="space_6">24dp</dimen>
+    <dimen name="space_7">32dp</dimen>
+    <dimen name="space_8">48dp</dimen>
+
+    <!-- 语义化间距 -->
+    <dimen name="screen_margin">@dimen/space_5</dimen>
+    <dimen name="section_gap">@dimen/space_6</dimen>
+    <dimen name="list_item_padding_horizontal">@dimen/space_5</dimen>
+    <dimen name="list_item_padding_vertical">@dimen/space_3</dimen>
+    <dimen name="list_item_min_height">64dp</dimen>
+    <dimen name="list_item_gap">@dimen/space_3</dimen>
+
+    <!-- ===== 形状 Shape scale ===== -->
+    <dimen name="radius_none">0dp</dimen>
+    <dimen name="radius_extra_small">4dp</dimen>
+    <dimen name="radius_small">8dp</dimen>
+    <dimen name="radius_medium">12dp</dimen>
+    <dimen name="radius_large">16dp</dimen>
+    <dimen name="radius_extra_large">28dp</dimen>
+    <dimen name="radius_full">100dp</dimen>
+
+    <dimen name="shape_card">@dimen/radius_medium</dimen>
+    <dimen name="shape_dialog">@dimen/radius_extra_large</dimen>
+    <dimen name="shape_drawer">@dimen/radius_large</dimen>
+    <dimen name="shape_icon_tile">@dimen/radius_small</dimen>
+
+    <!-- ===== 描边与分割线 ===== -->
+    <dimen name="stroke_hairline">1dp</dimen>
+    <dimen name="divider_height">1dp</dimen>
+
+    <!-- ===== 组件尺寸 ===== -->
+    <dimen name="toolbar_height">64dp</dimen>
+    <dimen name="icon_size">24dp</dimen>
+    <dimen name="icon_size_small">20dp</dimen>
+    <dimen name="icon_tile_size">40dp</dimen>
+    <dimen name="status_bar_height">40dp</dimen>
+    <dimen name="status_dot_size">8dp</dimen>
+    <dimen name="drawer_width">320dp</dimen>
+    <dimen name="touch_target">48dp</dimen>
+    <dimen name="fab_margin">@dimen/space_5</dimen>
+    <dimen name="fab_clearance">@dimen/space_7</dimen>
+    <dimen name="empty_state_icon_size">72dp</dimen>
+
+</resources>

@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+    组件级样式（M3 变体）
+    ============================================================
+    这里集中定义 Button / Card / TextField / Divider / FAB 等组件的令牌映射，
+    布局文件只写结构，不为每个控件重复声明颜色与圆角，保证视觉一致性。
+-->
+<resources>
+
+    <!-- ===== 文本输入 ===== -->
+    <style name="Widget.RFM.TextInputLayout" parent="Widget.Material3.TextInputLayout.OutlinedBox">
+        <item name="boxStrokeWidth">@dimen/stroke_hairline</item>
+        <item name="boxStrokeWidthFocused">2dp</item>
+        <item name="boxStrokeColor">@color/selector_text_field_stroke</item>
+        <item name="boxBackgroundColor">@android:color/transparent</item>
+        <item name="hintTextColor">?attr/colorOnSurfaceVariant</item>
+        <item name="android:textColorHint">?attr/colorOnSurfaceVariant</item>
+        <item name="errorTextColor">?attr/colorError</item>
+        <item name="errorIconTint">?attr/colorError</item>
+        <item name="shapeAppearanceOverlay">@style/ShapeAppearance.RFM.Small</item>
+        <item name="boxCornerRadiusTopStart">@dimen/radius_extra_small</item>
+        <item name="boxCornerRadiusTopEnd">@dimen/radius_extra_small</item>
+        <item name="boxCornerRadiusBottomStart">@dimen/radius_extra_small</item>
+        <item name="boxCornerRadiusBottomEnd">@dimen/radius_extra_small</item>
+    </style>
+
+    <!-- 下拉选择（协议类型） -->
+    <style name="Widget.RFM.TextInputLayout.Dropdown" parent="Widget.Material3.TextInputLayout.OutlinedBox.ExposedDropdownMenu">
+        <item name="boxStrokeWidth">@dimen/stroke_hairline</item>
+        <item name="boxStrokeColor">@color/selector_text_field_stroke</item>
+        <item name="boxBackgroundColor">@android:color/transparent</item>
+    </style>
+
+    <!-- ===== 卡片 ===== -->
+    <style name="Widget.RFM.Card" parent="">
+        <item name="cardBackgroundColor">@color/color_surface_container_low</item>
+        <item name="cardCornerRadius">@dimen/shape_card</item>
+        <item name="cardElevation">0dp</item>
+        <item name="strokeColor">@color/color_outline_variant</item>
+        <item name="strokeWidth">@dimen/stroke_hairline</item>
+        <item name="rippleColor">?attr/colorControlHighlight</item>
+    </style>
+
+    <!-- 无描边的填充容器（用于状态栏、路径栏等次级容器） -->
+    <style name="Widget.RFM.Card.Plain" parent="Widget.RFM.Card">
+        <item name="strokeWidth">0dp</item>
+        <item name="cardBackgroundColor">@color/color_surface_container</item>
+    </style>
+
+    <!-- ===== 分割线 ===== -->
+    <style name="Widget.RFM.Divider" parent="">
+        <item name="dividerColor">@color/color_outline_variant</item>
+        <item name="dividerThickness">@dimen/divider_height</item>
+    </style>
+
+    <!-- ===== 按钮 ===== -->
+    <style name="Widget.RFM.Button" parent="Widget.Material3.Button">
+        <item name="android:textAppearance">@style/TextAppearance.RFM.Button</item>
+        <item name="android:letterSpacing">0.02</item>
+        <item name="iconPadding">@dimen/space_3</item>
+    </style>
+
+    <style name="Widget.RFM.Button.Outlined" parent="Widget.Material3.Button.OutlinedButton">
+        <item name="android:textAppearance">@style/TextAppearance.RFM.Button</item>
+        <item name="strokeColor">@color/color_outline</item>
+        <item name="iconTint">?attr/colorPrimary</item>
+        <item name="iconPadding">@dimen/space_3</item>
+    </style>
+
+    <style name="Widget.RFM.Button.Tonal" parent="Widget.Material3.Button.TonalButton">
+        <item name="android:textAppearance">@style/TextAppearance.RFM.Button</item>
+        <item name="iconTint">?attr/colorOnSecondaryContainer</item>
+        <item name="iconPadding">@dimen/space_3</item>
+    </style>
+
+    <style name="Widget.RFM.Button.Text" parent="Widget.Material3.Button.TextButton">
+        <item name="android:textAppearance">@style/TextAppearance.RFM.Button</item>
+        <item name="iconTint">?attr/colorPrimary</item>
+    </style>
+
+    <!-- 图标按钮：路径栏、列表尾部操作等 -->
+    <style name="Widget.RFM.Button.Icon" parent="Widget.Material3.Button.IconButton">
+        <item name="iconTint">?attr/colorOnSurfaceVariant</item>
+        <item name="iconSize">@dimen/icon_size</item>
+        <item name="android:minWidth">@dimen/touch_target</item>
+        <item name="android:minHeight">@dimen/touch_target</item>
+        <item name="android:insetTop">0dp</item>
+        <item name="android:insetBottom">0dp</item>
+    </style>
+
+    <style name="Widget.RFM.Button.Icon.Primary" parent="Widget.RFM.Button.Icon">
+        <item name="iconTint">?attr/colorPrimary</item>
+    </style>
+
+    <!-- ===== 浮动操作按钮 ===== -->
+    <style name="Widget.RFM.FloatingActionButton" parent="Widget.Material3.FloatingActionButton.Primary">
+        <item name="backgroundTint">@color/color_primary_container</item>
+        <item name="tint">@color/color_on_primary_container</item>
+        <item name="elevation">3dp</item>
+        <item name="android:contentDescription">@string/action_upload</item>
+    </style>
+
+    <!-- ===== 章节标题 ===== -->
+    <style name="Widget.RFM.SectionLabel" parent="">
+        <item name="android:textAppearance">@style/TextAppearance.RFM.LabelMedium</item>
+        <item name="android:paddingStart">@dimen/space_5</item>
+        <item name="android:paddingEnd">@dimen/space_5</item>
+        <item name="android:paddingTop">@dimen/space_4</item>
+        <item name="android:paddingBottom">@dimen/space_3</item>
+    </style>
+
+</resources>
