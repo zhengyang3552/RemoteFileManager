@@ -1,5 +1,7 @@
 # 远程网络文件管理器 (Remote Network File Manager)
 
+[![Android CI](https://github.com/zhengyang3552/RemoteFileManager/actions/workflows/android-ci.yml/badge.svg)](https://github.com/zhengyang3552/RemoteFileManager/actions/workflows/android-ci.yml)
+
 一个基于 **Kotlin + Android 原生视图 + Material 3** 的远程文件管理器，支持 FTP / FTPS / SFTP / SMB / WebDAV 五种协议。
 
 > 设计体系与配色依据见 [docs/design-tokens.md](docs/design-tokens.md)，本次改造的详细说明见 [docs/redesign.md](docs/redesign.md)。
@@ -62,6 +64,10 @@
 ```bash
 ./gradlew testDebugUnitTest
 ```
+
+### 持续集成
+推送或提 PR 时，`.github/workflows/android-ci.yml` 会自动执行「单元测试 → 构建 Debug APK → 上传产物」，
+产物名为 `RemoteFileManager-debug`；打 `v*` 标签时还会把 APK 附到对应 Release。
 
 ### 安装
 ```bash
