@@ -1,3 +1,8 @@
+> **⚠️ 2026-10 更新**：为与 ZY 系列其他应用统一，品牌种子色已从 #6200EE（紫）迁移到
+> **#0B57D0**（蓝），secondary/tertiary/neutral 改由 primary 按 M3 tonal-spot 规则派生，
+> success/warning 种子对齐为 #146C2E / #8B5000。最新色值见 [tokens.json](tokens.json)，
+> 本文以下内容保留作历史设计依据。
+
 # Material 3 设计令牌（Design Tokens）
 
 > 本文件由 `docs/tokens.json` 与色调算法生成，记录配色、排版、形状、间距的设计依据。

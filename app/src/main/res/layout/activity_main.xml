@@ -414,6 +414,15 @@
                     android:text="@string/action_about"
                     app:icon="@drawable/ic_info" />
             </LinearLayout>
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btn_dynamic_color"
+                style="@style/Widget.RFM.Button.Text"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/space_2"
+                android:text="@string/dynamic_color_title"
+                app:icon="@drawable/ic_theme" />
         </LinearLayout>
     </LinearLayout>
 

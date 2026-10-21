@@ -159,6 +159,11 @@
 
     <!-- ===== 主题 ===== -->
     <string name="theme_title">外观模式</string>
+
+    <!-- 动态取色（Android 12+ 壁纸取色） -->
+    <string name="dynamic_color_title">动态取色</string>
+    <string name="dynamic_color_on">跟随壁纸（Android 12+）</string>
+    <string name="dynamic_color_off">关闭（统一品牌色）</string>
     <string name="theme_system">跟随系统</string>
     <string name="theme_light">浅色</string>
     <string name="theme_dark">深色</string>

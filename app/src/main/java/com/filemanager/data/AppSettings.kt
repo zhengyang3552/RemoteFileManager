@@ -22,6 +22,16 @@ class AppSettings(context: Context) {
             prefs.edit().putInt(KEY_THEME, value).apply()
         }
 
+    /**
+     * 动态取色（Android 12+ 壁纸取色，Material DynamicColors）。
+     * 默认关闭以保持统一品牌色；关闭/开启后由界面触发重建立即生效。
+     */
+    var dynamicColor: Boolean
+        get() = prefs.getBoolean(KEY_DYNAMIC_COLOR, false)
+        set(value) {
+            prefs.edit().putBoolean(KEY_DYNAMIC_COLOR, value).apply()
+        }
+
     var sortField: SortField
         get() = SortField.fromNameOrDefault(prefs.getString(KEY_SORT_FIELD, null))
         set(value) {
@@ -43,6 +53,7 @@ class AppSettings(context: Context) {
     private companion object {
         const val PREF_NAME = "rfm_settings"
         const val KEY_THEME = "theme_mode"
+        const val KEY_DYNAMIC_COLOR = "dynamic_color"
         const val KEY_SORT_FIELD = "sort_field"
         const val KEY_SORT_ASC = "sort_ascending"
         const val KEY_LAST_CONNECTION = "last_connection_id"

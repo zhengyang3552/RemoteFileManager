@@ -118,6 +118,12 @@ class MainActivity : AppCompatActivity() {
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        // 动态取色需在视图创建前应用（Android 12+ 且用户开启时生效）
+        if (AppSettings(this).dynamicColor &&
+            android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.S
+        ) {
+            com.google.android.material.color.DynamicColors.applyToActivityIfAvailable(this)
+        }
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
@@ -205,6 +211,7 @@ class MainActivity : AppCompatActivity() {
 
         binding.btnNewConnection.setOnClickListener { showNewConnectionDialog() }
         binding.btnTheme.setOnClickListener { showThemeDialog() }
+        binding.btnDynamicColor.setOnClickListener { showDynamicColorDialog() }
         binding.btnAbout.setOnClickListener { showAboutDialog() }
 
         binding.etSearch.doAfterTextChanged { editable ->
@@ -757,6 +764,29 @@ class MainActivity : AppCompatActivity() {
                 settings.themeMode = modes[which]
                 dialog.dismiss()
                 AppCompatDelegate.setDefaultNightMode(modes[which])
+            }
+            .setNegativeButton(R.string.action_cancel, null)
+            .show()
+    }
+
+    private fun showDynamicColorDialog() {
+        val options = arrayOf(
+            getString(R.string.dynamic_color_off),
+            getString(R.string.dynamic_color_on)
+        )
+        val current = if (settings.dynamicColor) 1 else 0
+
+        MaterialAlertDialogBuilder(this)
+            .setTitle(R.string.dynamic_color_title)
+            .setSingleChoiceItems(options, current) { dialog, which ->
+                val enabled = which == 1
+                if (enabled != settings.dynamicColor) {
+                    settings.dynamicColor = enabled
+                    dialog.dismiss()
+                    recreate() // 重建后立即应用/恢复品牌配色
+                } else {
+                    dialog.dismiss()
+                }
             }
             .setNegativeButton(R.string.action_cancel, null)
             .show()
