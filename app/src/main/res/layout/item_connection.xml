@@ -1,42 +1,80 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<!--
+    抽屉中的连接项：协议图标 + 名称/地址 + 状态圆点 + 溢出菜单
+-->
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:background="?attr/selectableItemBackground"
+    android:gravity="center_vertical"
+    android:minHeight="60dp"
     android:orientation="horizontal"
-    android:padding="12dp"
-    android:background="?attr/selectableItemBackground">
+    android:paddingStart="@dimen/space_5"
+    android:paddingEnd="@dimen/space_1">
 
-    <ImageView
-        android:id="@+id/iv_status"
-        android:layout_width="24dp"
-        android:layout_height="24dp"
-        android:contentDescription="状态" />
+    <FrameLayout
+        android:layout_width="36dp"
+        android:layout_height="36dp">
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@drawable/bg_icon_tile_file" />
+
+        <ImageView
+            android:id="@+id/iv_protocol"
+            android:layout_width="@dimen/icon_size_small"
+            android:layout_height="@dimen/icon_size_small"
+            android:layout_gravity="center"
+            android:contentDescription="@string/cd_app_icon"
+            android:src="@drawable/ic_link"
+            app:tint="?attr/colorOnSurfaceVariant" />
+    </FrameLayout>
 
     <LinearLayout
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/space_4"
         android:layout_weight="1"
-        android:layout_marginStart="12dp"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:paddingTop="@dimen/space_3"
+        android:paddingBottom="@dimen/space_3">
 
         <TextView
             android:id="@+id/tv_name"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textSize="14sp"
-            android:textStyle="bold"
-            android:text="连接名称" />
+            android:ellipsize="end"
+            android:maxLines="1"
+            android:textAppearance="@style/TextAppearance.RFM.TitleSmall"
+            tools:text="公司文件服务器" />
 
         <TextView
             android:id="@+id/tv_detail"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textSize="12sp"
-            android:textColor="#666666"
-            android:layout_marginTop="2dp"
-            android:text="FTP - host:port" />
-
+            android:layout_marginTop="@dimen/space_1"
+            android:ellipsize="end"
+            android:maxLines="1"
+            android:textAppearance="@style/TextAppearance.RFM.BodySmall"
+            tools:text="SFTP · 10.0.0.12:22" />
     </LinearLayout>
+
+    <View
+        android:id="@+id/v_status"
+        android:layout_width="@dimen/status_dot_size"
+        android:layout_height="@dimen/status_dot_size"
+        android:layout_marginEnd="@dimen/space_2"
+        android:background="@drawable/bg_status_dot" />
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/btn_more"
+        style="@style/Widget.RFM.Button.Icon"
+        android:layout_width="@dimen/touch_target"
+        android:layout_height="@dimen/touch_target"
+        android:contentDescription="@string/action_more"
+        app:icon="@drawable/ic_more_vert" />
 
 </LinearLayout>

@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+    M3 形状令牌（Shape scale）
+    ============================================================
+    none 0dp / extraSmall 4dp / small 8dp / medium 12dp /
+    large 16dp / extraLarge 28dp
+    与 dimens.xml 中的 radius_* 一一对应，供不同组件的 shapeAppearance 引用。
+-->
+<resources>
+
+    <style name="ShapeAppearance.RFM.None" parent="">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSize">@dimen/radius_none</item>
+    </style>
+
+    <style name="ShapeAppearance.RFM.ExtraSmall" parent="">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSize">@dimen/radius_extra_small</item>
+    </style>
+
+    <style name="ShapeAppearance.RFM.Small" parent="">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSize">@dimen/radius_small</item>
+    </style>
+
+    <style name="ShapeAppearance.RFM.Medium" parent="">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSize">@dimen/radius_medium</item>
+    </style>
+
+    <style name="ShapeAppearance.RFM.Large" parent="">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSize">@dimen/radius_large</item>
+    </style>
+
+    <style name="ShapeAppearance.RFM.ExtraLarge" parent="">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSize">@dimen/radius_extra_large</item>
+    </style>
+
+    <style name="ShapeAppearance.RFM.Full" parent="">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSize">50%</item>
+    </style>
+
+</resources>

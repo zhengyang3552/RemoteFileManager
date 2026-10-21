@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- 启动图标背景：与品牌主色 tone 40 对齐 -->
+    <color name="ic_launcher_background">@color/md_primary_40</color>
+</resources>

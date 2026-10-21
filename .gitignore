@@ -30,3 +30,6 @@ logs/
 # Keystore
 *.jks
 *.keystore
+
+# Local SDK path
+local.properties

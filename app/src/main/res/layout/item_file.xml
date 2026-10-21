@@ -1,43 +1,78 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<!--
+    文件 / 文件夹列表项
+    ============================================================
+    左侧 40dp 图标容器 + 主次文本两行 + 尾部溢出菜单。
+    主文本 TitleMedium（16sp/medium），次文本 BodySmall（12sp，onSurfaceVariant），
+    通过字号、字重与颜色三层差异建立清晰的阅读层级。
+-->
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:background="?attr/selectableItemBackground"
+    android:gravity="center_vertical"
+    android:minHeight="@dimen/list_item_min_height"
     android:orientation="horizontal"
-    android:padding="12dp"
-    android:background="?attr/selectableItemBackground">
+    android:paddingStart="@dimen/list_item_padding_horizontal"
+    android:paddingEnd="@dimen/space_1">
 
-    <ImageView
-        android:id="@+id/iv_icon"
-        android:layout_width="40dp"
-        android:layout_height="40dp"
-        android:src="@drawable/ic_folder"
-        android:contentDescription="文件图标" />
+    <FrameLayout
+        android:layout_width="@dimen/icon_tile_size"
+        android:layout_height="@dimen/icon_tile_size">
+
+        <View
+            android:id="@+id/v_icon_tile"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@drawable/bg_icon_tile_folder" />
+
+        <ImageView
+            android:id="@+id/iv_icon"
+            android:layout_width="@dimen/icon_size_small"
+            android:layout_height="@dimen/icon_size_small"
+            android:layout_gravity="center"
+            android:contentDescription="@string/cd_folder_icon"
+            android:src="@drawable/ic_folder"
+            app:tint="?attr/colorOnSecondaryContainer" />
+    </FrameLayout>
 
     <LinearLayout
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/space_5"
         android:layout_weight="1"
-        android:layout_marginStart="12dp"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:paddingTop="@dimen/space_3"
+        android:paddingBottom="@dimen/space_3">
 
         <TextView
             android:id="@+id/tv_name"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textSize="16sp"
-            android:textStyle="bold"
-            android:text="文件名" />
+            android:ellipsize="end"
+            android:maxLines="1"
+            android:textAppearance="@style/TextAppearance.RFM.TitleMedium"
+            tools:text="年度报告.pdf" />
 
         <TextView
-            android:id="@+id/tv_info"
+            android:id="@+id/tv_meta"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textSize="12sp"
-            android:textColor="#666666"
-            android:layout_marginTop="4dp"
-            android:text="大小 | 修改时间" />
-
+            android:layout_marginTop="@dimen/space_1"
+            android:ellipsize="end"
+            android:maxLines="1"
+            android:textAppearance="@style/TextAppearance.RFM.BodySmall"
+            tools:text="2.4 MB · 修改于 2026-10-18 09:12" />
     </LinearLayout>
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/btn_more"
+        style="@style/Widget.RFM.Button.Icon"
+        android:layout_width="@dimen/touch_target"
+        android:layout_height="@dimen/touch_target"
+        android:contentDescription="@string/action_more"
+        app:icon="@drawable/ic_more_vert" />
 
 </LinearLayout>
