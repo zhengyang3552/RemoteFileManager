@@ -182,7 +182,7 @@ HTTP 405/501 / UnsupportedOperation       → UNSUPPORTED
 | 项目 | 结果 |
 | --- | --- |
 | `./gradlew assembleDebug` | BUILD SUCCESSFUL，产物 `app/build/outputs/apk/debug/app-debug.apk`（约 10MB） |
-| `./gradlew testDebugUnitTest` | 通过：路径规范化 9、格式化 3、排序 6、异常映射 8、界面冒烟 2（含深色模式角色校验） |
+| `./gradlew testDebugUnitTest` | 通过 28 项：路径规范化 9、格式化 3、排序 6、异常映射 8、界面冒烟 2（含 M3 主题与深色模式角色校验） |
 | 资源链接 | 主题属性全部可解析（M3 attrs + 自定义 `Widget.RFM.*`） |
 | 未覆盖 | 未接入真机/模拟器做端到端联调，也未连接真实的 FTP/SFTP/SMB/WebDAV 服务器；协议层以编译期检查 + 异常路径单测为主 |
 
