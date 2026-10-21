@@ -24,7 +24,7 @@ android {
         create("release") {
             val ksPath = System.getenv("KEYSTORE_PATH")
             if (ksPath != null) {
-                storeFile = file(ksPath)
+                storeFile = rootProject.file(ksPath)
                 storePassword = System.getenv("KEYSTORE_PASSWORD") ?: ""
                 keyAlias = System.getenv("KEY_ALIAS") ?: ""
                 keyPassword = System.getenv("KEY_PASSWORD") ?: ""
@@ -47,6 +47,11 @@ android {
         }
         debug {
             isMinifyEnabled = false
+            // CI 提供签名环境（KEYSTORE_PATH）时，debug 包同样使用固定签名；
+            // 本地未设置时保持默认调试签名，不影响日常开发
+            if (System.getenv("KEYSTORE_PATH") != null) {
+                signingConfig = signingConfigs.getByName("release")
+            }
         }
     }
 
